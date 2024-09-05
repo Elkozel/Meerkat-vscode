@@ -1,4 +1,4 @@
-# Meerkat
+# Meerkat for VS Code
 
 Suricata/Snort formatter extension for VS Code
 
