@@ -1,0 +1,24 @@
+{
+  "name": "meerkat",
+  "description": "Suricata/Snort VSCode extenssion",
+  "author": "Tsvetomir Hristov",
+  "license": "MIT",
+  "version": "0.0.1",
+  "publisher": "ELKozel",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Elkozel/Meerkat.git"
+  },
+  "engines": {
+    "vscode": "^1.75.0"
+  },
+  "dependencies": {
+    "node-downloader-helper": "^2.1.9",
+    "path": "^0.12.7",
+    "vscode-languageclient": "^8.1.0"
+  },
+  "devDependencies": {
+    "@types/node": "^22.5.4",
+    "@types/vscode": "^1.93.0"
+  }
+}

@@ -1,0 +1,62 @@
+name: Deploying extension
+
+on:
+  push:
+    branches: [ "main"]
+  workflow_dispatch:
+
+jobs:
+  test-and-deploy:
+    name: Test and deploy the extension
+    runs-on: ubuntu-latest
+    steps: 
+      - uses: actions/checkout@v3
+      - name: Setup Node
+        uses: actions/setup-node@v3
+      - name: Install Dependencies
+        run: npm install
+      
+      # - name: Run tests
+      #   run: npm test
+
+      - name: Package extenssion
+        run: npx vsce package
+      - name: Upload extension
+        uses: actions/upload-artifact@v3
+        with:
+          name: extension
+          path: ./*.vsix
+      - name: Deploy extension
+        run: npx vsce publish --pat ${{ secrets.MARKETPLACE_DEPLOY_TOKEN }} --target win32-x64 linux-x64
+
+
+  create-release:
+    name: Create a new Release
+    runs-on: ubuntu-latest
+    needs: [test-and-deploy]
+    steps:
+      - id: fetch-version
+        name: Fetch version from cargo
+        run: |
+          RELEASE_VERSION=$(grep -oP '"version": "(\d+\.\d+\.\d+)"' package.json | head -n 1)
+          echo "Version is $RELEASE_VERSION"
+          echo "RELEASE_VERSION=$RELEASE_VERSION" >> "$GITHUB_OUTPUT"
+          
+      - name: Download extension
+        uses: actions/download-artifact@v3
+        with: 
+          name: extension
+          path: ./
+      - name: Upload to release
+        uses: softprops/action-gh-release@v2
+        with:
+          token: ${{ secrets.RELEASE_TOKEN }}
+          generate_release_notes: true
+          make_latest: true
+          append_body: true
+          tag_name: ${{ steps.fetch-version.outputs.RELEASE_VERSION }}
+          name: "Meerkat for VS Code v${{ steps.fetch-version.outputs.RELEASE_VERSION }}"
+          files: ./*.vsix
+
+
+  
