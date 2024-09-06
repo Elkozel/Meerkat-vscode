@@ -36,7 +36,7 @@ jobs:
     needs: [test-and-deploy]
     steps:
       - id: fetch-version
-        name: Fetch version from cargo
+        name: Fetch version from package.json
         run: |
           RELEASE_VERSION=$(grep -oP '"version": "(\d+\.\d+\.\d+)"' package.json | head -n 1)
           echo "Version is $RELEASE_VERSION"
