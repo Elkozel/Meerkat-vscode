@@ -15,17 +15,17 @@ import {
 import { PcapProvider } from './pcapTree.js';
 import { executeSuricata } from "./suricata.js";
 import { SuricataStatusBar } from './statusBar.js';
-import { checkLS } from './downloadLS.js';
+import { fetchServers, initializeLS } from './downloadLS.js';
 
 let client: LanguageClient;
 
 export async function activate(context: ExtensionContext) {
-	const hello = commands.registerCommand("meerkat.hello", () => {
+	// Update the list of available servers
+	let languageServer = await initializeLS();
+
+	const helloCommand = commands.registerCommand("meerkat.hello", () => {
 		window.showInformationMessage("Meerkat is here!");
 	});
-
-	// Download Language Server
-	await checkLS();
 
 	// Register the tree view
 	new PcapProvider(context);
@@ -33,12 +33,12 @@ export async function activate(context: ExtensionContext) {
 	new SuricataStatusBar();
 	// Register execute suricata command
 	const executeSuricataCommand = commands.registerCommand("meerkat.executeSuricata", (uri: Uri) => executeSuricata(uri));
-	context.subscriptions.push(executeSuricataCommand, hello);
+	context.subscriptions.push(executeSuricataCommand, helloCommand);
 
 
 	const traceOutputChannel = window.createOutputChannel("Meerkat Language Server trace");
 	// If the process environment SERVER_PATH is specified, use it, otherwise the executable should be in the default 
-	const command = process.env.SERVER_PATH ? path.join(__dirname, process.env.SERVER_PATH) : path.join(__dirname, "../../server/meerkat");
+	const command = process.env.SERVER_PATH ? path.join(__dirname, process.env.SERVER_PATH) : languageServer.filePath;
 	const run: Executable = {
 		command,
 		options: {

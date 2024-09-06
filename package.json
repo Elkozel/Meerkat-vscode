@@ -33,6 +33,13 @@
 					"type": "boolean",
 					"default": false,
 					"description": "Do not display error messages when suricata exits with an error code"
+				},
+				"meerkat.lsVersion": {
+					"title": "Language Server Version",
+					"type": "string",
+					"enum": ["latest"],
+					"default": "latest",
+					"description": "Please pick the language server version you would like to use"
 				}
 			}
 		},
