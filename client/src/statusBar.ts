@@ -1,4 +1,4 @@
-import { ExtensionContext, StatusBarAlignment, StatusBarItem, ThemeColor, commands, window } from 'vscode';
+import { StatusBarAlignment, StatusBarItem, ThemeColor, commands, window } from 'vscode';
 import { getSuricataInfo, SuricataInfo } from './suricata';
 
 

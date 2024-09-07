@@ -1,9 +1,9 @@
-import { accessSync, chmod, chmodSync, existsSync, mkdirSync, rmSync } from 'fs';
-import axios, { isCancel, AxiosError, all } from 'axios';
+import { chmodSync, existsSync, mkdirSync, rmSync } from 'fs';
+import axios from 'axios';
 import { platform } from "process";
 import * as path from "node:path";
-import { constants, readdir } from 'fs/promises';
-import { MessageOptions, Progress, ProgressLocation, ProgressOptions, window } from 'vscode';
+import { readdir } from 'fs/promises';
+import { ProgressLocation, ProgressOptions, window } from 'vscode';
 import { DownloaderHelper } from 'node-downloader-helper';
 import { execFileSync } from 'child_process';
 

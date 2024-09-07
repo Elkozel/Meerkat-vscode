@@ -15,7 +15,7 @@ import {
 import { PcapProvider } from './pcapTree.js';
 import { executeSuricata } from "./suricata.js";
 import { SuricataStatusBar } from './statusBar.js';
-import { fetchServers, initializeLS } from './downloadLS.js';
+import { initializeLS } from './downloadLS.js';
 
 let client: LanguageClient;
 

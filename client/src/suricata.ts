@@ -1,5 +1,5 @@
 import * as path from 'path';
-import { workspace, window, Uri, ViewColumn, TextDocument, StatusBarAlignment, commands, ProgressOptions, ProgressLocation, Progress } from 'vscode';
+import { workspace, window, Uri, ViewColumn, TextDocument, ProgressOptions, ProgressLocation } from 'vscode';
 import * as os from "node:os";
 import * as fs from "node:fs";
 import * as util from "util";

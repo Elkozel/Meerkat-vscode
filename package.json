@@ -17,14 +17,14 @@
 		"vscode extenssion",
 		"language support"
 	],
-  "engines": {
-    "vscode": "^1.75.0"
-  },
-  "activationEvents": [
-    "onLanguage",
+	"engines": {
+		"vscode": "^1.75.0"
+	},
+	"activationEvents": [
+		"onLanguage",
 		"onCommand:meerkat.executeSuricata"
-  ],
-  "main": "./client/out/extension",
+	],
+	"main": "./client/out/extension",
 	"contributes": {
 		"configuration": {
 			"title": "Meerkat",
@@ -37,7 +37,9 @@
 				"meerkat.lsVersion": {
 					"title": "Language Server Version",
 					"type": "string",
-					"enum": ["latest"],
+					"enum": [
+						"latest"
+					],
 					"default": "latest",
 					"description": "Please pick the language server version you would like to use"
 				}
@@ -181,14 +183,19 @@
 			}
 		]
 	},
-  "scripts": {
-    "vscode:prepublish": "npm run compile",
-    "compile": "tsc -b",
-    "watch": "tsc -b -w",
-    "postinstall": "cd client && npm install && cd .."
-  },
-  "devDependencies": {
-    "@types/node": "^20.9.0",
-    "typescript": "5.4.5"
-  }
+	"scripts": {
+		"vscode:prepublish": "npm run compile",
+		"compile": "tsc -b",
+		"watch": "tsc -b -w",
+		"postinstall": "cd client && npm install && cd .."
+	},
+	"devDependencies": {
+		"@types/node": "^20.9.0",
+		"typescript": "5.4.5"
+	},
+	"dependencies": {
+		"axios": "^1.7.7",
+		"node-downloader-helper": "^2.1.9",
+		"path": "^0.12.7"
+	}
 }
