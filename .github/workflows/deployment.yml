@@ -14,8 +14,6 @@ jobs:
       - name: Setup Node
         uses: actions/setup-node@v3
       - name: Install Dependencies
-        env:
-          NODE_ENV: production
         run: npm ci
       
       # - name: Run tests
