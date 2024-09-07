@@ -26,6 +26,25 @@ jobs:
         with:
           name: extension
           path: ./*.vsix
+          
+      - id: fetch-version
+        name: Fetch version from package.json
+        run: |
+          ls
+          RELEASE_VERSION=$(grep -oP '"version": "\d+\.\d+\.\d+"' package.json | head -n 1 | grep -oP "\d+\.\d+\.\d+")
+          echo "Version is $RELEASE_VERSION"
+          echo "RELEASE_VERSION=$RELEASE_VERSION" >> "$GITHUB_OUTPUT"
+      
+      - name: Upload to release
+        uses: softprops/action-gh-release@v2
+        with:
+          token: ${{ secrets.RELEASE_TOKEN }}
+          generate_release_notes: true
+          make_latest: true
+          append_body: true
+          tag_name: ${{ steps.fetch-version.outputs.RELEASE_VERSION }}
+          name: "Meerkat for VS Code v${{ steps.fetch-version.outputs.RELEASE_VERSION }}"
+          files: ./*.vsix
       - name: Deploy extension
         run: npx vsce publish --target win32-x64 linux-x64 --pat ${{ secrets.MARKETPLACE_DEPLOY_TOKEN }}
 
