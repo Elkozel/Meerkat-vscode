@@ -38,7 +38,8 @@ jobs:
       - id: fetch-version
         name: Fetch version from package.json
         run: |
-          RELEASE_VERSION=$(grep -oP '"version": "\d+\.\d+\.\d+"' package.json | head -n 1 | grep -oP "\d\.\d\.\d")
+          ls
+          RELEASE_VERSION=$(grep -oP '"version": "\d+\.\d+\.\d+"' package.json | head -n 1 | grep -oP "\d+\.\d+\.\d+")
           echo "Version is $RELEASE_VERSION"
           echo "RELEASE_VERSION=$RELEASE_VERSION" >> "$GITHUB_OUTPUT"
           
