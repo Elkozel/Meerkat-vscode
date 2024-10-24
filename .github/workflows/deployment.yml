@@ -10,9 +10,9 @@ jobs:
     name: Test and deploy the extension
     runs-on: ubuntu-latest
     steps: 
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - name: Setup Node
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
       - name: Install Dependencies
         run: npm ci
       
@@ -54,6 +54,7 @@ jobs:
     runs-on: ubuntu-latest
     needs: [test-and-deploy]
     steps:
+      - uses: actions/checkout@v4
       - id: fetch-version
         name: Fetch version from package.json
         run: |
