@@ -64,12 +64,15 @@ export function executeSuricata(pcap: Uri, rules?: Uri, removeLogs = true) {
 					const ignoreSuricata = workbenchConfig.get("ignoreSuricataErrors");
 					if (t.exitStatus.code === 0) {
 						// Open fast log
-						const fastLogUri = Uri.parse(path.join("file:\\\\" + temporaryDirectory, "fast.log"), true);
-						window.showTextDocument(fastLogUri, {
-							"preserveFocus": true,
-							"viewColumn": ViewColumn.Beside,
-							"preview": true,
-						});
+						const fastLogFile = Uri.file(path.join(temporaryDirectory, "fast.log"))
+						// only open it if it is not already open
+						if (!documentIsOpen(fastLogFile)) {
+							window.showTextDocument(fastLogFile, {
+								"preserveFocus": true,
+								"viewColumn": ViewColumn.Beside,
+								"preview": true,
+							});
+						}
 					}
 					else if (!ignoreSuricata) {
 						// Prompt the user
@@ -80,8 +83,8 @@ export function executeSuricata(pcap: Uri, rules?: Uri, removeLogs = true) {
 									// Check if the user wants to open the suricata logs
 									case "Open suricata logs":
 										// eslint-disable-next-line no-case-declarations
-										const suricataLog = Uri.parse(path.join("file:\\\\" + temporaryDirectory, "suricata.log"));
-										window.showTextDocument(suricataLog, {
+										const suricataLogFile = Uri.file(path.join(temporaryDirectory, "suricata.log"));
+										window.showTextDocument(suricataLogFile, {
 											"preserveFocus": false,
 											"viewColumn": ViewColumn.Active
 										});
@@ -119,10 +122,15 @@ export function removeFastLogs(folderPath: string) {
 	}
 }
 
-function searchForTextDocument(find: TextDocument) {
-	return window.visibleTextEditors.findIndex(editor => {
-		editor.document.fileName == find.fileName;
-	}) == -1;
+/**
+ * Function to check if a document is open in the editor
+ * @param find the uri to find
+ * @returns true if the document is open
+ */
+function documentIsOpen(find: Uri) {
+	return window.visibleTextEditors.findIndex(editor => 
+		editor.document.uri.fsPath === find.fsPath
+	) != -1;
 }
 
 export interface SuricataInfo {

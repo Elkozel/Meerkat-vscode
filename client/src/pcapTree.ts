@@ -258,7 +258,7 @@ export class PcapProvider implements vscode.TreeDataProvider<PcapTreeItem>, vsco
 			// First extract the string
 			const urlListString: string = urlList.value;
 			// The individual paths are all represented in a string, separated by `\r\n`. For example "Path\\1\r\nPath\\2"
-			const items: vscode.Uri[] = urlListString.split("\r\n").map(uriString => vscode.Uri.parse("file:\\\\" + uriString));
+			const items: vscode.Uri[] = urlListString.split("\r\n").map(uriString => vscode.Uri.file(uriString));
 
 			items.forEach(uriItem => {
 				// For now you can only add items to the root element (aka when target it undefined)
@@ -293,5 +293,5 @@ function getPcaps(rootPath: vscode.Uri): PcapFile[] {
 	const pcapFileNames = fs.readdirSync(rootPath.fsPath).filter(file => {
 		return PCAP_FILE_EXTENSSIONS.some(extenssion => file.endsWith(extenssion));
 	});
-	return pcapFileNames.map(file => new PcapFile(vscode.Uri.parse("file:/" + path.join(rootPath.fsPath, file))));
+	return pcapFileNames.map(file => new PcapFile(vscode.Uri.file(path.join(rootPath.fsPath, file))));
 }
