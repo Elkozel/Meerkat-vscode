@@ -64,8 +64,8 @@ export function executeSuricata(pcap: Uri, rules?: Uri, removeLogs = true) {
 					const ignoreSuricata = workbenchConfig.get("ignoreSuricataErrors");
 					if (t.exitStatus.code === 0) {
 						// Open fast log
-						const fastLogUri = Uri.parse(path.join("file:\\\\" + temporaryDirectory, "fast.log"), true);
-						window.showTextDocument(fastLogUri, {
+						const fastLogFile = Uri.file(path.join(temporaryDirectory, "fast.log"))
+						window.showTextDocument(fastLogFile, {
 							"preserveFocus": true,
 							"viewColumn": ViewColumn.Beside,
 							"preview": true,
@@ -80,8 +80,8 @@ export function executeSuricata(pcap: Uri, rules?: Uri, removeLogs = true) {
 									// Check if the user wants to open the suricata logs
 									case "Open suricata logs":
 										// eslint-disable-next-line no-case-declarations
-										const suricataLog = Uri.parse(path.join("file:\\\\" + temporaryDirectory, "suricata.log"));
-										window.showTextDocument(suricataLog, {
+										const suricataLogFile = Uri.file(path.join(temporaryDirectory, "suricata.log"));
+										window.showTextDocument(suricataLogFile, {
 											"preserveFocus": false,
 											"viewColumn": ViewColumn.Active
 										});
