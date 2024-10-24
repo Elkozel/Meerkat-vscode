@@ -65,11 +65,14 @@ export function executeSuricata(pcap: Uri, rules?: Uri, removeLogs = true) {
 					if (t.exitStatus.code === 0) {
 						// Open fast log
 						const fastLogFile = Uri.file(path.join(temporaryDirectory, "fast.log"))
-						window.showTextDocument(fastLogFile, {
-							"preserveFocus": true,
-							"viewColumn": ViewColumn.Beside,
-							"preview": true,
-						});
+						// only open it if it is not already open
+						if (!documentIsOpen(fastLogFile)) {
+							window.showTextDocument(fastLogFile, {
+								"preserveFocus": true,
+								"viewColumn": ViewColumn.Beside,
+								"preview": true,
+							});
+						}
 					}
 					else if (!ignoreSuricata) {
 						// Prompt the user
@@ -119,10 +122,15 @@ export function removeFastLogs(folderPath: string) {
 	}
 }
 
-function searchForTextDocument(find: TextDocument) {
-	return window.visibleTextEditors.findIndex(editor => {
-		editor.document.fileName == find.fileName;
-	}) == -1;
+/**
+ * Function to check if a document is open in the editor
+ * @param find the uri to find
+ * @returns true if the document is open
+ */
+function documentIsOpen(find: Uri) {
+	return window.visibleTextEditors.findIndex(editor => 
+		editor.document.uri.fsPath === find.fsPath
+	) != -1;
 }
 
 export interface SuricataInfo {
